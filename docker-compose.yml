@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+    # MySQL Service
+    mysql:
+        image: mysql:8.0
+        container_name: laravel_mysql
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE:-laravel}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+            MYSQL_PASSWORD: ${DB_PASSWORD:-password}
+            MYSQL_USER: ${DB_USERNAME:-laravel}
+        volumes:
+            - mysql-data:/var/lib/mysql
+        ports:
+            - "${DB_PORT:-3306}:3306"
+
+# Volumes
+volumes:
+    mysql-data:
+        driver: local
