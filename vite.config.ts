@@ -5,32 +5,39 @@ import path from 'path';
 import tailwindcss from 'tailwindcss';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
+import Components from 'unplugin-vue-components/vite';
+import { PrimeVueResolver } from '@primevue/auto-import-resolver';
 
 export default defineConfig({
     plugins: [
         laravel({
             input: ['resources/js/app.ts'],
             ssr: 'resources/js/ssr.ts',
-            refresh: true,
+            refresh: true
         }),
         vue({
             template: {
                 transformAssetUrls: {
                     base: null,
-                    includeAbsolute: false,
-                },
-            },
+                    includeAbsolute: false
+                }
+            }
         }),
+        Components({
+            resolvers: [
+                PrimeVueResolver()
+            ]
+        })
     ],
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './resources/js'),
-            'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy'),
-        },
+            'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy')
+        }
     },
     css: {
         postcss: {
-            plugins: [tailwindcss, autoprefixer],
-        },
-    },
+            plugins: [tailwindcss, autoprefixer]
+        }
+    }
 });
