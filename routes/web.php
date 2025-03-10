@@ -8,9 +8,9 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
-Route::get('dashboard', function () {
+Route::get('admin/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'super_admin'])->prefix('admin')->name('dashboard');
+})->middleware(['auth', 'super_admin'])->name('dashboard');
 
 Route::middleware(['auth', 'super_admin'])->prefix('admin')->group(function () {
     Route::resource('products', ProductController::class);
