@@ -10,9 +10,11 @@ Route::get('/', function () {
 
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'super_admin'])->prefix('admin')->name('dashboard');
 
-Route::resource('products', ProductController::class);
+Route::middleware(['auth', 'super_admin'])->prefix('admin')->group(function () {
+    Route::resource('products', ProductController::class);
+});
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
