@@ -19,7 +19,6 @@ const page = usePage();
 
 // Watch for flash messages and show appropriate toasts
 watch(() => page.props.flash, (newFlash: any) => {
-    console.log('page.props.flash', page.props.flash);
     if (newFlash.success) {
         toast.add({
             severity: 'success',
