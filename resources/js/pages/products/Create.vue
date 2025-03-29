@@ -1,3 +1,4 @@
+// Create.vue
 <script setup lang="ts">
 import Form from '@/pages/products/components/Form.vue';
 </script>

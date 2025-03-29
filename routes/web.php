@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
@@ -12,12 +13,14 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::get('admin/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'super_admin'])->name('dashboard');
 
 Route::middleware(['auth', 'super_admin'])->prefix('admin')->group(function () {
+    Route::get('dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
     Route::resource('products', ProductController::class);
+    Route::resource('categories', CategoryController::class);
 });
 
 require __DIR__ . '/settings.php';

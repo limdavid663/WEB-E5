@@ -19,6 +19,7 @@ declare module 'vue' {
     Image: typeof import('primevue/image')['default']
     InputNumber: typeof import('primevue/inputnumber')['default']
     InputText: typeof import('primevue/inputtext')['default']
+    MultiSelect: typeof import('primevue/multiselect')['default']
     Panel: typeof import('primevue/panel')['default']
     ProgressBar: typeof import('primevue/progressbar')['default']
     Textarea: typeof import('primevue/textarea')['default']

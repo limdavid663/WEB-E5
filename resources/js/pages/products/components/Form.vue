@@ -1,3 +1,4 @@
+// Form.vue
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { router, useForm } from '@inertiajs/vue3';

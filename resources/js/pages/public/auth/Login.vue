@@ -17,12 +17,12 @@ defineProps<{
 const form = useForm({
     email: '',
     password: '',
-    remember: false,
+    remember: false
 });
 
 const submit = () => {
     form.post(route('login'), {
-        onFinish: () => form.reset('password'),
+        onFinish: () => form.reset('password')
     });
 };
 </script>
@@ -55,9 +55,9 @@ const submit = () => {
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
                         <Label for="password">Password</Label>
-                        <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm" :tabindex="5">
-                            Forgot password?
-                        </TextLink>
+                        <!--                        <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm" :tabindex="5">-->
+                        <!--                            Forgot password?-->
+                        <!--                        </TextLink>-->
                     </div>
                     <Input
                         id="password"
@@ -71,12 +71,12 @@ const submit = () => {
                     <InputError :message="form.errors.password" />
                 </div>
 
-                <div class="flex items-center justify-between" :tabindex="3">
-                    <Label for="remember" class="flex items-center space-x-3">
-                        <Checkbox id="remember" v-model:checked="form.remember" :tabindex="4" />
-                        <span>Remember me</span>
-                    </Label>
-                </div>
+                <!--                <div class="flex items-center justify-between" :tabindex="3">-->
+                <!--                    <Label for="remember" class="flex items-center space-x-3">-->
+                <!--                        <Checkbox id="remember" v-model:checked="form.remember" :tabindex="4" />-->
+                <!--                        <span>Remember me</span>-->
+                <!--                    </Label>-->
+                <!--                </div>-->
 
                 <Button type="submit" class="mt-4 w-full" :tabindex="4" :disabled="form.processing">
                     <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
@@ -84,10 +84,10 @@ const submit = () => {
                 </Button>
             </div>
 
-            <div class="text-center text-sm text-muted-foreground">
-                Don't have an account?
-                <TextLink :href="route('register')" :tabindex="5">Sign up</TextLink>
-            </div>
+<!--            <div class="text-center text-sm text-muted-foreground">-->
+            <!--                Don't have an account?-->
+            <!--                <TextLink :href="route('register')" :tabindex="5">Sign up</TextLink>-->
+            <!--            </div>-->
         </form>
     </AuthBase>
 </template>
