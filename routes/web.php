@@ -1,11 +1,15 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    $products = Product::all();
+    return Inertia::render('public/Welcome', [
+        'products' => $products
+    ]);
 })->name('home');
 
 Route::get('admin/dashboard', function () {

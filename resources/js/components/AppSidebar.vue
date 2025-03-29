@@ -13,8 +13,7 @@ import {
 } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, Package } from 'lucide-vue-next';
-import AppLogo from './AppLogo.vue';
+import { LayoutGrid, Package } from 'lucide-vue-next';
 
 const mainNavItems: NavItem[] = [
     {
@@ -29,18 +28,7 @@ const mainNavItems: NavItem[] = [
     }
 ];
 
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Github Repo',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: Folder
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits',
-        icon: BookOpen
-    }
-];
+const footerNavItems: NavItem[] = [];
 </script>
 
 <template>
@@ -50,7 +38,9 @@ const footerNavItems: NavItem[] = [
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
                         <Link :href="route('dashboard')">
-                            <AppLogo />
+                            <span class="mb-0.5 truncate font-semibold leading-none">
+                                RUPP
+                            </span>
                         </Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
