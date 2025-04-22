@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { Head, Link, router } from '@inertiajs/vue3';
+import { computed, ref, watch } from 'vue';
 
 // Props
 interface Category {
@@ -21,49 +21,42 @@ interface Props {
     products: Product[];
     categories: Category[];
     currentCategory: Category | null;
+    search: string;
 }
 
 const props = defineProps<Props>();
+// Create a ref for the search input
+const searchQuery = ref(props.search);
 
-// Computed property to organize categories for the menu
-const categoryMenuItems = computed(() => {
-    return props.categories.map(category => ({
-        label: category.name,
-        icon: 'pi pi-tag',
-        to: {
-            path: '/',
-            query: { category: category.id }
+let searchTimeout: any = null;
+
+watch(searchQuery, (newValue) => {
+    clearTimeout(searchTimeout);
+
+    searchTimeout = setTimeout(() => {
+        // Get current URL parameters
+        const params = new URLSearchParams(window.location.search);
+
+        // Update or remove the search parameter
+        if (newValue) {
+            params.set('search', newValue);
+        } else {
+            params.delete('search');
         }
-    }));
+
+        // Preserve the category parameter if it exists
+        if (props.currentCategory) {
+            params.set('category', props.currentCategory.id);
+        }
+
+        // Navigate to the updated URL
+        router.get('/', Object.fromEntries(params), {
+            preserveState: true,
+            replace: true,
+            preserveScroll: true
+        });
+    }, 300); // 300ms debounce
 });
-
-// Add "All Products" item at the beginning
-const menuItems = computed(() => {
-    return [
-        {
-            label: 'All Products',
-            icon: 'pi pi-home',
-            to: '/'
-        },
-        ...categoryMenuItems.value
-    ];
-});
-
-// Active menu item based on current category
-const activeIndex = computed(() => {
-    if (!props.currentCategory) return 0;
-
-    const index = props.categories.findIndex(
-        category => category.id === props.currentCategory?.id
-    );
-
-    return index >= 0 ? index + 1 : 0;
-});
-
-// Helper function to display category names for a product
-const getCategoryNames = (product: Product) => {
-    return product.categories.map(cat => cat.name).join(', ');
-};
 </script>
 
 <template>
@@ -76,7 +69,17 @@ const getCategoryNames = (product: Product) => {
         class="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] dark:bg-[#0a0a0a] lg:justify-center lg:p-8">
         <header class="not-has-[nav]:hidden mb-6 w-full max-w-[335px] text-sm lg:max-w-4xl">
             <nav class="flex items-center justify-between gap-4">
-                <div>
+                <div class="flex items-center gap-2">
+                    <div class="mb-4">
+                        <span class="p-input-icon-left w-full">
+                          <i class="pi pi-search" />
+                          <InputText
+                              v-model="searchQuery"
+                              placeholder="Search products..."
+                              class="w-full"
+                          />
+                        </span>
+                    </div>
                     <div class="flex flex-wrap gap-2">
                         <Button
                             label="All Products"
@@ -95,7 +98,7 @@ const getCategoryNames = (product: Product) => {
 
                 <Link
                     v-if="$page.props.auth.user && $page.props.auth.user.is_super_admin"
-                    :href="route('dashboard')"
+                    :href="route('products.index')"
                     class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                 >
                     Admin

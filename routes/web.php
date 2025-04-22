@@ -15,9 +15,15 @@ Route::get('/', function (Request $request) {
     // If a category is specified, filter products by that category
     if ($request->has('category')) {
         $categoryId = $request->category;
-        $productsQuery->whereHas('categories', function($query) use ($categoryId) {
+        $productsQuery->whereHas('categories', function ($query) use ($categoryId) {
             $query->where('categories.id', $categoryId);
         });
+    }
+
+    // If a search term is provided, filter products by name
+    if ($request->has('search') && !empty($request->search)) {
+        $searchTerm = $request->search;
+        $productsQuery->where('name', 'LIKE', '%' . $searchTerm . '%');
     }
 
     // Get all products based on the query
@@ -33,7 +39,8 @@ Route::get('/', function (Request $request) {
     return Inertia::render('public/Welcome', [
         'products' => $products,
         'categories' => $categories,
-        'currentCategory' => $currentCategory
+        'currentCategory' => $currentCategory,
+        'search' => $request->search ?? ''
     ]);
 })->name('home');
 
