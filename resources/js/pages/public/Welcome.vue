@@ -71,7 +71,6 @@ watch(searchQuery, (newValue) => {
             <nav class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div class="w-full md:w-64 lg:w-80">
             <span class="p-input-icon-left w-full">
-                <i class="pi pi-search" />
                 <InputText
                     v-model="searchQuery"
                     placeholder="Search products..."
